@@ -15,6 +15,8 @@ action "Deploy to gh-pages" {
     BUILD_SCRIPT = "npm install && npm run build"
     FOLDER = "dist"
   }
-  secrets = ["ACCESS_TOKEN"]
+  secrets = [
+    "GITHUB_TOKEN",
+  ]
   needs = ["master branch only"]
 }
