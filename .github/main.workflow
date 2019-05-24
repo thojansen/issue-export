@@ -16,7 +16,7 @@ action "Deploy to gh-pages" {
     FOLDER = "dist"
   }
   secrets = [
-    "GITHUB_TOKEN",
+    "ACCESS_TOKEN",
   ]
   needs = ["master branch only"]
 }
