@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "declaration": true,
+    "removeComments": true,
+    "importHelpers": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+  },
+  "exclude": ["node_modules","test.ts","**/*.spec.ts"]
+}
