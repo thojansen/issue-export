@@ -3,7 +3,8 @@
   "version": "2.0.0",
   "description": "Search and Export GitHub Issues",
   "scripts": {
-    "build": "./node_modules/.bin/ng build --watch"
+    "watch": "./node_modules/.bin/ng build --watch",
+    "build": "./node_modules/.bin/ng build --prod"
   },
   "private": true,
   "dependencies": {
