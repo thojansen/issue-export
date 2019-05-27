@@ -18,6 +18,7 @@ export class AppComponent {
   public searchIcon: IconDefinition
   public downloadIcon: IconDefinition
   public issues = []
+  public loading = false
 
   constructor(private location: Location, private route: ActivatedRoute, private http: HttpClient) { }
 
@@ -27,7 +28,7 @@ export class AppComponent {
     this.searchString = new FormControl()
     this.route.queryParams.subscribe(params => {   
       if(params.query){         
-        this.searchString.setValue(params.query)
+        this.searchString.setValue(params.query)        
         this.performSearch()
       }
     })
@@ -40,7 +41,8 @@ export class AppComponent {
   performSearch() {
     let query = this.searchString.value ? this.searchString.value : ''
     this.location.go('/',`query=${query}`)
-    if(query !== ''){
+    if(query !== ''){      
+      this.loading = true
       this.http.get(`https://api.github.com/search/issues?per_page=100&q=${this.searchString.value}`, { observe : 'response' }).subscribe(response => {
         let issues = (<any>response.body).items
         for(let i = 0, len = issues.length; i < len; i++) {
@@ -56,11 +58,12 @@ export class AppComponent {
             issues[i].closedFromNow = ""
           }
         }
-        this.issues = issues
+        this.loading = false
+        this.issues = issues        
       })
     }
     else{
-      this.issues = []
+      this.issues = []     
     }      
   }
 

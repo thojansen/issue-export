@@ -14,13 +14,19 @@
             </div>
             <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search all issues" [formControl]="searchString">
             <div class="input-group-append">                
-                <span type="button" class="btn btn-outline-secondary" (click)="export()"><fa-icon [icon]="downloadIcon"></fa-icon></span>
+                <span *ngIf="issues.length > 0" type="button" class="btn btn-outline-secondary" (click)="export()"><fa-icon [icon]="downloadIcon"></fa-icon></span>
             </div>
           </div>
     </div>
   </form>  
+
+  <div class="d-flex justify-content-center" *ngIf="loading">
+    <div class="spinner-border text-primary mt-4" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
   
-  <table class="table table-striped" *ngIf="issues.length > 0">
+  <table class="table table-striped" *ngIf="issues.length > 0 && !loading">
     <thead>
       <tr>
         <th>State</th>
