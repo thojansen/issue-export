@@ -14,7 +14,7 @@
             </div>
             <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search all issues" [formControl]="searchString">
             <div class="input-group-append">                
-                <span type="button" class="btn btn-outline-secondary"><fa-icon [icon]="downloadIcon" (click)="export()"></fa-icon></span>
+                <span type="button" class="btn btn-outline-secondary" (click)="export()"><fa-icon [icon]="downloadIcon"></fa-icon></span>
             </div>
           </div>
     </div>
