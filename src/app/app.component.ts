@@ -27,8 +27,8 @@ export class AppComponent {
     this.downloadIcon = faDownload
     this.searchString = new FormControl()
     this.route.queryParams.subscribe(params => {   
-      if(params.query){         
-        this.searchString.setValue(params.query)        
+      if(params.q){         
+        this.searchString.setValue(params.q)        
         this.performSearch()
       }
     })
@@ -40,7 +40,7 @@ export class AppComponent {
 
   performSearch() {
     let query = this.searchString.value ? this.searchString.value : ''
-    this.location.go('/',`query=${query}`)
+    this.location.go('/',`q=${query}`)
     if(query !== ''){      
       this.loading = true
       this.http.get(`https://api.github.com/search/issues?per_page=100&q=${this.searchString.value}`, { observe : 'response' }).subscribe(response => {
