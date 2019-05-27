@@ -2,11 +2,11 @@
   "name": "github-issue-export",
   "version": "2.0.0",
   "description": "Search and Export GitHub Issues",
+  "license": "MIT",
   "scripts": {
     "watch": "./node_modules/.bin/ng build --watch",
     "build": "./node_modules/.bin/ng build --prod"
   },
-  "private": true,
   "dependencies": {
     "@angular/animation": "^4.0.0-beta.8",
     "@angular/animations": "^7.2.14",
@@ -18,7 +18,14 @@
     "@angular/platform-browser": "^7.2.4",
     "@angular/platform-browser-dynamic": "^7.2.4",
     "@angular/router": "^7.2.4",
+    "@fortawesome/angular-fontawesome": "^0.3.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.18",
+    "@fortawesome/free-solid-svg-icons": "^5.8.2",
+    "bootstrap": "^4.3.1",
     "core-js": "^2.6.4",
+    "file-saver": "^2.0.2",
+    "moment": "^2.24.0",
+    "octicons": "^8.5.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "6.5.1",
     "ts-node": "^7.0.1",

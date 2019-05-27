@@ -1,1 +1,48 @@
-<div>{{title}}</div>
+<div class="container">
+
+    <div class="jumbotron mt-4">
+
+      <h1>GitHub Issue Search and Export</h1>
+      <p>Seach for GitHub Issues and Export them as a .csv file.</p>
+    
+    </div>
+  <form (ngSubmit)="onSearch()" #f="ngForm">
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text"><fa-icon [icon]="searchIcon"></fa-icon></div>
+            </div>
+            <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Search all issues" [formControl]="searchString">
+            <div class="input-group-append">                
+                <span type="button" class="btn btn-outline-secondary"><fa-icon [icon]="downloadIcon" (click)="export()"></fa-icon></span>
+            </div>
+          </div>
+    </div>
+  </form>  
+  
+  <table class="table table-striped" *ngIf="issues.length > 0">
+    <thead>
+      <tr>
+        <th>State</th>
+        <th>Issue</th>
+        <th>Creator</th>
+        <th>Assignee</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <th>Closed within</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let issue of issues">
+        <td><div octicon="issue-opened" width="32" color="#6cc644" class="heading" *ngIf="issue.state === 'open'"></div><div octicon="issue-closed" width="32" color="#bd2c00" class="heading" *ngIf="issue.state === 'closed'"></div></td>
+        <td><div class="heading headingText"><a target="_blank" href="{{issue.html_url}}">{{issue.owner}}/{{issue.repo}}#{{issue.number}}</a></div><div class="body">{{issue.title}}</div></td>
+        <td><a *ngIf="issue.user.login" target="_blank" href="{{issue.user.html_url}}"><img [src]="issue.user.avatar_url" title="{{issue.user.login}}"/></a></td>
+        <td><a *ngIf="issue.assignee && issue.assignee.login" target="_blank" href="{{issue.assignee.html_url}}"><img [src]="issue.assignee.avatar_url" title="{{issue.assignee.login}}"/></a></td>
+        <td>{{issue.createdFromNow}}</td>
+        <td>{{issue.updatedFromNow}}</td>
+        <td>{{issue.closedDuration}}</td>
+      </tr>
+    </tbody>
+  </table>    
+  
+</div>

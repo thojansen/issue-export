@@ -1,22 +1,30 @@
 import { NgModule } from '@angular/core'
+import { Location } from '@angular/common'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { AppRouter } from './approuter.module'
 import { HttpClientModule } from '@angular/common/http'
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 import { AppComponent } from './app/app.component'
-
+import { OcticonDirective } from './octicon/octicon.directive'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    OcticonDirective
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,    
     BrowserAnimationsModule,
-    HttpClientModule
+    FormsModule,       
+    ReactiveFormsModule,
+    AppRouter,
+    HttpClientModule,
+    FontAwesomeModule
   ],
-  providers: [],
+  providers: [ Location ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
