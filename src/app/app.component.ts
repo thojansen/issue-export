@@ -2,8 +2,8 @@ import { Location } from '@angular/common'
 import { Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NgForm, FormControl } from '@angular/forms'
-import { IconDefinition, faSearch, faDownload } from '@fortawesome/free-solid-svg-icons'
-import { HttpClient } from '@angular/common/http'
+import { IconDefinition, faSearch, faDownload, faKey } from '@fortawesome/free-solid-svg-icons'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import * as moment from 'moment'
 import { saveAs } from 'file-saver'
 
@@ -15,17 +15,43 @@ import { saveAs } from 'file-saver'
 })
 export class AppComponent {
   public searchString: FormControl
+  public accessToken: FormControl
   public searchIcon: IconDefinition
   public downloadIcon: IconDefinition
+  public accessTokenIcon: IconDefinition
+  public alert: string = ''
+  public showAccessToken: boolean = false
   public issues = []
   public loading = false
 
   constructor(private location: Location, private route: ActivatedRoute, private http: HttpClient) { }
 
+  fetchLocalStorage(){
+    if (typeof(Storage) !== "undefined") {
+      let token = localStorage.getItem('accessToken')      
+      if(token){
+        this.accessToken.setValue(token)
+      }      
+    } else {
+      console.log('no support for local storage')
+    }
+  }
+
+  pushLocalStorage(){
+    if (typeof(Storage) !== "undefined") {
+      localStorage.setItem('accessToken', this.accessToken.value)
+    } else {
+      console.log('no support for local storage')
+    }
+  }
+
   ngOnInit() {    
     this.searchIcon = faSearch
     this.downloadIcon = faDownload
-    this.searchString = new FormControl()
+    this.accessTokenIcon = faKey
+    this.searchString = new FormControl()    
+    this.accessToken = new FormControl('')
+    this.fetchLocalStorage()
     this.route.queryParams.subscribe(params => {   
       if(params.q){         
         this.searchString.setValue(params.q)        
@@ -38,12 +64,30 @@ export class AppComponent {
     this.performSearch()    
   }
 
+  onSetAccessToken(){    
+    this.showAccessToken = false
+    this.pushLocalStorage()
+  }
+
+  setAccessToken(){
+    this.showAccessToken = !this.showAccessToken
+  }
+
+  closeAlert(){
+    this.alert = ''
+  }
+
   performSearch() {
     let query = this.searchString.value ? this.searchString.value : ''
     this.location.go('/',`q=${query}`)
+    this.alert = ''
     if(query !== ''){      
       this.loading = true
-      this.http.get(`https://api.github.com/search/issues?per_page=100&q=${this.searchString.value}`, { observe : 'response' }).subscribe(response => {
+      let authHeaders = undefined
+      if(this.accessToken.value !== ''){
+        authHeaders = new HttpHeaders({'Authorization':`token ${this.accessToken.value}`})
+      }
+      this.http.get(`https://api.github.com/search/issues?per_page=100&q=${this.searchString.value}`, { observe : 'response', headers: authHeaders }).subscribe(response => {
         let issues = (<any>response.body).items
         for(let i = 0, len = issues.length; i < len; i++) {
           issues[i].owner = issues[i].html_url.split('/')[3]
@@ -60,6 +104,10 @@ export class AppComponent {
         }
         this.loading = false
         this.issues = issues        
+      }, error => {
+        this.issues = []
+        this.loading = false
+        this.alert = error.message
       })
     }
     else{

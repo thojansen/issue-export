@@ -1,11 +1,28 @@
 <div class="container">
 
-    <div class="jumbotron mt-4">
+  <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert" *ngIf="alert !== ''">
+    {{alert}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 
-      <h1>GitHub Issue Search and Export</h1>
-      <p>Seach for GitHub Issues and Export them as a .csv file.</p>
-    
-    </div>
+  <div class="jumbotron mt-4">
+    <h1>GitHub Issue Search and Export</h1>
+    <p>Seach for GitHub Issues and Export them as a .csv file.</p>
+    <br />
+    <form (ngSubmit)="onSetAccessToken()" #a="ngForm">
+      <div class="form-group">
+        <div class="input-group text-right">
+          <input [style.visibility]="showAccessToken ? 'visible' : 'hidden'" type="password" class="form-control" id="inlineFormInputGroup" placeholder="Personal Access Token" [formControl]="accessToken">
+          <div class="input-group-append">
+            <span type="button" class="btn btn-outline-dark" (click)="setAccessToken()"><fa-icon [icon]="accessTokenIcon" [ngClass]="this.accessToken.value === '' ? 'red' : 'green'"></fa-icon></span>                      
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
   <form (ngSubmit)="onSearch()" #f="ngForm">
     <div class="form-group">
         <div class="input-group">
@@ -35,7 +52,7 @@
         <th>Assignee</th>
         <th>Created</th>
         <th>Updated</th>
-        <th>Closed within</th>
+        <th>Closed in</th>
       </tr>
     </thead>
     <tbody>
