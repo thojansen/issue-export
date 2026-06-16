@@ -9,4 +9,4 @@ A simple "client-only" app for searching and exporting issues. Settings are stor
 
 Each push to `master` triggers the `./github/main.workflow` to compile the app and push to the `gh-pages` branch. 
 
-The app is hosted on GitHub Pages [here](https://thojansen.github.io/issue-export-v2).
+The app is hosted on GitHub Pages [here](https://thojansen.github.io/issue-export-v2)
